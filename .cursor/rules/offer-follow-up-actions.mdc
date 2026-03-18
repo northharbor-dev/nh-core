@@ -1,0 +1,17 @@
+---
+description: Across any lifecycle (idea→proposal→doc→build→test→validate→publish), offer to run actions the user could do
+alwaysApply: true
+---
+
+# Offer Follow-Up Actions
+
+Whenever a step would require the user to run a command or take an action you could do instead, **ask if you should do it for them**.
+
+Examples:
+- After a doc or layout change: offer to run a local preview
+- After Dockerfile or Docker changes: offer to run a build to verify
+- After spec or config changes: offer to run validation
+- Before merge: offer to run integration tests
+- After generating a file: offer to open it for review
+
+Keep it brief. Don't run commands unprompted unless the user explicitly asked.

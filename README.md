@@ -4,20 +4,36 @@ Core agent definitions, rules, and skills shared across the NorthHarbor ecosyste
 
 ## What lives here
 
-| Path                                 | Purpose                                                                    |
-|--------------------------------------|----------------------------------------------------------------------------|
-| `.cursor/rules/halos-alignment.mdc`  | HALOS alignment rule — applied globally to every agent in every workspace  |
-| `.cursor/rules/elliot.mdc`           | Elliot (security analyst) — flags unsafe operations; applied globally      |
+| Path                                         | Purpose                                                                      |
+|----------------------------------------------|------------------------------------------------------------------------------|
+| `.cursor/rules/halos-alignment.mdc`          | HALOS alignment summary — applied globally to every agent in every workspace |
+| `.cursor/rules/elliot.mdc`                   | Elliot (security analyst) — flags unsafe operations; applied globally        |
+| `.cursor/rules/offer-follow-up-actions.mdc`  | Proactively offer to run next steps the user could do                        |
 
-## Usage
+## How to use in a new repo
 
-These rules are intended to be sourced by sibling repos rather than redefined. When adding a new NorthHarbor workspace, reference the rules here instead of duplicating them.
+Add a `.cursor/agents/README.md` to your repo and reference nh-core rules by relative path. Do not copy the files.
 
-## Agents
+```markdown
+## Global (always applied)
 
-Rules here correspond to agents documented in `nh-dev/AGENTS.md`:
+| Rule                    | Path                                                    | Scope                                                        |
+|-------------------------|---------------------------------------------------------|--------------------------------------------------------------|
+| HALOS alignment         | `../nh-core/.cursor/rules/halos-alignment.mdc`          | `alwaysApply: true` — human primacy, attribution, guardrails |
+| Elliot (security)       | `../nh-core/.cursor/rules/elliot.mdc`                   | `alwaysApply: true` — security checks on every conversation  |
+| Offer follow-up actions | `../nh-core/.cursor/rules/offer-follow-up-actions.mdc`  | `alwaysApply: true` — proactively offer to run next steps    |
+```
 
-- **Elliot** — security analyst; `alwaysApply: true` across all workspaces
-- **HALOS alignment** — ethical and governance guardrails; `alwaysApply: true` across all workspaces
+Then add app-specific agents below that section as needed.
 
-For the full agent roster and per-agent rule/skill manifest, see [`nh-dev/.cursor/agents/README.md`](../nh-dev/.cursor/agents/README.md).
+## Policy
+
+HALOS alignment in these rules is a **consumer summary**. The authoritative HALOS contract and spec live in [`../halos/`](../halos/). All agent behavior across the ecosystem flows from that definition — nh-core does not redefine it.
+
+## Repos using nh-core
+
+| Repo       | Manifest                               |
+|------------|----------------------------------------|
+| `nh-dev`   | `.cursor/agents/README.md`             |
+| `halos`    | `.cursor/agents/README.md`             |
+| `breezy`   | `.cursor/agents/README.md`             |
